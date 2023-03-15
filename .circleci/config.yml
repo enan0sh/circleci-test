@@ -2,7 +2,7 @@ version: 2.0
 
 jobs:
   build-typescript:
-    working_directory: /tmp
+    working_directory: ~/.
     docker:
       - image: cimg/node:lts
     steps:
@@ -18,7 +18,7 @@ jobs:
           paths:
             - "./"
   test-typescript:
-    working_directory: /tmp
+    working_directory: ~/.
     docker:
       - image: cimg/node:lts
     steps:
@@ -36,5 +36,4 @@ workflows:
     jobs:
       - build-typescript
       - test-typescript:
-        requires:
-          - build-typescript
+        requires: build-typescript
