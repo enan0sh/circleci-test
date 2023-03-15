@@ -36,4 +36,5 @@ workflows:
     jobs:
       - build-typescript
       - test-typescript:
-        requires: build-typescript
+          requires: 
+            - build-typescript
