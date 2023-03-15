@@ -1,0 +1,22 @@
+{
+  "name": "circleci-test",
+  "version": "1.0.0",
+  "description": "test app to create cicleci pipelines",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enan0sh/circleci-test.git"
+  },
+  "author": "Nahir Sanchez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enan0sh/circleci-test/issues"
+  },
+  "homepage": "https://github.com/enan0sh/circleci-test#readme",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
