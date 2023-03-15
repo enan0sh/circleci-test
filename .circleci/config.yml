@@ -27,6 +27,16 @@ jobs:
           command: |
             ls -la
             npm run test
+  deploy-typescript:
+    docker:
+      -image: cimg/node:lts
+    steps:
+      - attach_workspace:
+        at: ./
+      - run:
+          name: Run deploy
+          command: |
+            ls -la
 
 workflows:
   version: 2
@@ -36,3 +46,12 @@ workflows:
       - test-typescript:
           requires: 
             - build-typescript
+  build-test-deploy:
+    jobs:
+      - build-typescript
+      - test-typescript:
+          requires: 
+            - build-typescript
+      - deploy-typescript:
+          requires:
+            - test-typescript
