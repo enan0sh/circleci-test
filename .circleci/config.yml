@@ -27,16 +27,12 @@ jobs:
           command: |
             ls -la
             npm run test
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - "./"
   deploy-typescript:
     docker:
       -image: cimg/node:lts
     steps:
       - attach_workspace:
-        at: ./
+          at: ./
       - run:
           name: Run deploy
           command: |
