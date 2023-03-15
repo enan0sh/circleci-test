@@ -1,20 +1,6 @@
 version: 2.0
 
 jobs:
-  build-dummy-typescript:
-    docker:
-      - image: cimg/node:lts
-    steps:
-      - checkout
-      - run:
-          name: Run build
-          command: |
-            ls -al
-            npm install
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - "./"
   build-typescript:
     docker:
       - image: cimg/node:lts
@@ -30,17 +16,6 @@ jobs:
           root: ./
           paths:
             - "./"
-  test-dummy-typescript:
-    docker:
-      - image: cimg/node:lts
-    steps:
-      - attach_workspace:
-          at: ./
-      - run:
-          name: Run test
-          command: |
-            ls -la
-            npm run test
   test-typescript:
     docker:
       - image: cimg/node:lts
@@ -62,39 +37,42 @@ jobs:
           name: Run deploy
           command: |
             ls -la
-  deploy-dummy-typescript:
-    docker:
-      - image: cimg/node:lts
-    steps:
-      - attach_workspace:
-          at: ./
-      - run:
-          name: Run deploy
-          command: |
-            ls -la
 
 workflows:
   version: 2
   build-test:
     jobs:
-      - build-typescript
+      - build-typescript:
+          filters:
+            branches:
+              ignore:
+                - main
       - test-typescript:
+          filters:
+            branches:
+              ignore:
+                - main
           requires: 
             - build-typescript
   build-test-deploy:
     jobs:
-      - build-typescript
+      - build-typescript:
+          filters:
+            branches:
+              only:
+                - main
       - test-typescript:
+          filters:
+            branches:
+              only:
+                - main
           requires: 
             - build-typescript
       - deploy-typescript:
+          filters:
+            branches:
+              only:
+                - main
           requires:
             - test-typescript
-      - build-dummy-typescript
-      - test-dummy-typescript:
-          requires: 
-            - build-dummy-typescript
-      - deploy-dummy-typescript:
-          requires:
-            - test-dummy-typescript
       
