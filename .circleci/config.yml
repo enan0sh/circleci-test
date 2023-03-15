@@ -1,0 +1,40 @@
+version: 2.0
+
+jobs:
+  build-typescript:
+    working_directory: /tmp
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - run:
+          name: Run build
+          command: |
+            ls -al
+            npm install
+            npm run build
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - "./"
+  test-typescript:
+    working_directory: /tmp
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Run test
+          command: |
+            ls -la
+            npm run test
+
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - build-typescript
+      - test-typescript:
+        requires:
+          - build-typescript
